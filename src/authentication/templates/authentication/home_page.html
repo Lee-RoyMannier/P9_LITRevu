@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Page d'accueil
+{% endblock title %}
+
+{% block content %}
+    {% if not user.is_authenticated %}
+    <h2>Inscrivez-vous maintenant</h2>
+    <a href="{% url 'auth:inscription' %}">S'inscrire</a>
+
+    <h2>Connectez-vous</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Se connecter</button>
+    </form>
+    {% else %}
+        <h1>Vous êtes connecter en tant que {{user.username}}</h1>
+    {% endif %}
+{% endblock content %}

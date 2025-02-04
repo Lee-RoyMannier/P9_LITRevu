@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}
+    Home
+{% endblock title %}
+
+{% block content %}
+    <h1>{{user.username}}</h1>
+    <div>
+        <a href="{% url 'review:create_ticket' %}">Demander une critique</a>
+        <a href="{% url 'review:create_review' %}">Céer une critique</a>
+    </div>
+
+    <div>
+        {% for ticket in tickets %}
+            <p>{% posted_by_display ticket.user %} demandé une critique</p>
+            <p>{{ticket.time_created}}</p>
+            <p>{{ticket.title}}</p>
+            <p>{{ticket.description}}</p>
+            {% if ticket.image %}
+                <img src="{{ticket.image.url}}" alt="{{ticket.title}}">
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock content %}
