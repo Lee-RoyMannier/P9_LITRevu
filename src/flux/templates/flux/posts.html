@@ -2,18 +2,13 @@
 {% load custom_filters %}
 
 {% block title %}
-    Home
+    My Posts
 {% endblock title %}
 
 {% block content %}
-    <h1>{{user.username}}</h1>
+    <h2>Vos posts</h2>
     <div>
-        <a href="{% url 'review:create_ticket' %}">Demander une critique</a>
-        <a href="{% url 'review:create_review' %}">Céer une critique</a>
-    </div>
-
-    <div>
-        {% for instance in all_flux %}
+     {% for instance in all_flux %}
             {% if instance|get_instance_name == "ticket" %}
                 <p>{% posted_by_display instance.user %} demandé une critique</p>
                 <p>{{instance.time_created}}</p>
@@ -21,8 +16,9 @@
                 <p>{{instance.description}}</p>
                 {% if instance.image %}
                     <img src="{{instance.image.url}}" alt="{{instance.title}}">
-                <a href="{% url 'review:review_ticket' instance.id %}">Créer une critique</a>
                 {% endif %}
+                <a href="{% url 'review:update_ticket' instance.id %}">Modifier</a>
+                <a href="{% url 'review:delete_ticket' instance.id %}">Supprimer</a>
             {% elif instance|get_instance_name == "review" %}
 
                 <p>{% posted_by_display instance.user%} publié une critique</p>
@@ -42,6 +38,8 @@
                 {% if instance.ticket.image %}
                     <img src="{{instance.ticket.image.url}}" alt="{{instance.ticket.title}}">
                 {% endif %}
+                <a href="">Modifier</a>
+                <a href="">Supprimer</a>
             {% endif %}
         {% endfor %}
     </div>

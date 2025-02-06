@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Review ticket
+{% endblock title %}
+
+{% block content %}
+  <h2>Vous êtes en train de poster en réponse à</h2>
+  <div>
+    <p>{{ticket.user.username}} a demandé une critique</p>
+    <p>{{ticket.time_created}}</p>
+    <p>{{ticket.title}}</p>
+    <p>{{ticket.description}}</p>
+    {% if ticket.image %}
+      <img src="{{ticket.image.url}}" rel="{{ticket.title}}">
+    {% endif %}
+  </div>
+
+  <hr>
+  <h2>Critique</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{review_form.as_p}}
+    <button type="submit">Envoyer</button>
+  </form>
+{% endblock content %}

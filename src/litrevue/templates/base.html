@@ -9,7 +9,7 @@
         <h1>LITReview</h1>
         {% if user.is_authenticated %}
             <a href="{% url 'flux:flux_view' %}">Flux</a>
-            <a>Posts</a>
+            <a href="{% url 'flux:my_posts' %}">Posts</a>
             <a>Abonnements</a>
             <form method="post" action="{% url 'auth:logout' %}">
                 {% csrf_token %}
