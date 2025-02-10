@@ -24,6 +24,7 @@ urlpatterns = [
     path("", include("authentication.urls")),
     path("home/", include("flux.urls")),
     path("home/reviews/", include("reviews.urls")),
+    path("home/follow/", include("subscriber.urls")),
 ]
 
 if settings.DEBUG:

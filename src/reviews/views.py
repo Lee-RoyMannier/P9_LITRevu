@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView, View
 from reviews.models import Ticket, Review
@@ -114,3 +114,20 @@ def delete_ticket(request, ticket_id):
         return redirect("flux:my_posts")
 
     return render(request, "reviews/delete_ticket.html")
+
+
+
+def modify_review(request, review_id):
+    review = get_object_or_404(Review, pk=review_id)
+    ticket = review.ticket
+    review_form = ReviewForm(instance=review)
+
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST, instance=review)
+        if review_form.is_valid():
+            review_form.save()
+            return redirect("flux:my_posts")
+
+    return render(request, "reviews/review_updating.html",
+                  context={"ticket": ticket, "form": review_form})
+

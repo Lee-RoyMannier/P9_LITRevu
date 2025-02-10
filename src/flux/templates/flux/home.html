@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load custom_filters %}
 
 {% block title %}
     Home
@@ -14,34 +13,10 @@
 
     <div>
         {% for instance in all_flux %}
-            {% if instance|get_instance_name == "ticket" %}
-                <p>{% posted_by_display instance.user %} demandé une critique</p>
-                <p>{{instance.time_created}}</p>
-                <p>{{instance.title}}</p>
-                <p>{{instance.description}}</p>
-                {% if instance.image %}
-                    <img src="{{instance.image.url}}" alt="{{instance.title}}">
-                <a href="{% url 'review:review_ticket' instance.id %}">Créer une critique</a>
-                {% endif %}
-            {% elif instance|get_instance_name == "review" %}
-
-                <p>{% posted_by_display instance.user%} publié une critique</p>
-                <p>{{instance.time_created}}</p>
-                <p>{{instance.headline}} - </p>
-                 {% for i in rating_range %}
-                    {% if i <= instance.rating %}
-                        ★
-                    {% else %}
-                        ☆
-                    {% endif %}
-                {% endfor %}
-                <p>{{instance.body}}</p>
-                <p>TICKET TODO CSS</p>
-                <p>ticket - {{instance.ticket.user.username}}</p>
-                <p>{{instance.ticket.title}}</p>
-                {% if instance.ticket.image %}
-                    <img src="{{instance.ticket.image.url}}" alt="{{instance.ticket.title}}">
-                {% endif %}
+            {% if instance.content_type == "TICKET" %}
+                {% include 'flux/partials/ticket_snippet.html' %}
+            {% elif instance.content_type == "REVIEW" %}
+                {% include 'flux/partials/review_snippet.html' %}
             {% endif %}
         {% endfor %}
     </div>

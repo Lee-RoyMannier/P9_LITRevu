@@ -1,0 +1,20 @@
+{% load custom_filters %}
+
+
+<p>{% posted_by_display instance.user%} publié une critique</p>
+<p>{{instance.time_created}}</p>
+<p>{{instance.headline}} - </p>
+{% for i in rating_range %}
+    {% if i <= instance.rating %}
+        ★
+    {% else %}
+        ☆
+    {% endif %}
+{% endfor %}
+<p>{{instance.body}}</p>
+<p>TICKET TODO CSS</p>
+<p>ticket - {{instance.ticket.user.username}}</p>
+<p>{{instance.ticket.title}}</p>
+{% if instance.ticket.image %}
+    <img src="{{instance.ticket.image.url}}" alt="{{instance.ticket.title}}">
+{% endif %}

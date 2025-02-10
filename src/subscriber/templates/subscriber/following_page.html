@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Following Page
+{% endblock title %}
+
+{% block content %}
+    <div>
+        <h2>Suivre d'autres utilisateurs</h2>
+        <p>{{msg}}</p>
+        <form method="POST">
+            {% csrf_token %}
+            {{follow_form.as_p}}
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Abonnements</h2>
+        {% for follower in followers %}
+    <p>{{ follower.followed_by.username }}</p>
+    <form method="POST" action="{% url 'follow:unfollow_user' follower.followed_by.id %}">
+        {% csrf_token %}
+        <button type="submit">Unfollow</button>
+    </form>
+{% empty %}
+    <p>Vous ne suivez personne</p>
+{% endfor %}
+    </div>
+
+    <div>
+        <h2>Abonnées</h2>
+        {% for following in followings %}
+            <p>{{following.user.username}}</p>
+        {% empty %}
+            <p>Personne ne vous suit actuellement</p>
+        {% endfor %}
+    </div>
+{% endblock content %}
+

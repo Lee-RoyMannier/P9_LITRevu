@@ -38,7 +38,7 @@
                 {% if instance.ticket.image %}
                     <img src="{{instance.ticket.image.url}}" alt="{{instance.ticket.title}}">
                 {% endif %}
-                <a href="">Modifier</a>
+                <a href="{% url 'review:modify_review' instance.id%}">Modifier</a>
                 <a href="">Supprimer</a>
             {% endif %}
         {% endfor %}

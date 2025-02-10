@@ -1,0 +1,11 @@
+{% load custom_filters %}
+
+
+<p>{% posted_by_display instance.user %} demandé une critique</p>
+<p>{{instance.time_created}}</p>
+<p>{{instance.title}}</p>
+<p>{{instance.description}}</p>
+{% if instance.image %}
+  <img src="{{instance.image.url}}" alt="{{instance.title}}">
+  <a href="{% url 'review:review_ticket' instance.id %}">Créer une critique</a>
+{% endif %}

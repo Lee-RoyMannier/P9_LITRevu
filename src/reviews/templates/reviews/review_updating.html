@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}
+    Updating Review
+{% endblock title %}
+
+
+{% block content %}
+    <h1>Modifier votre critique</h1>
+    <h2>Vous êtes en train de poster en réponse à</h2>
+    <div>
+        <p>{% posted_by_display ticket.user %} demandé une critique</p>
+        <p>{{ticket.time_created}}</p>
+        <p>{{ticket.title}}</p>
+        <p>{{ticket.description}}</p>
+        {% if ticket.image %}
+            <img src="{{ticket.image.url}}" alt="{{ticket.title}}_img">
+        {% endif %}
+    </div>
+    <div>
+        <h2>Critique</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+{% endblock content %}
