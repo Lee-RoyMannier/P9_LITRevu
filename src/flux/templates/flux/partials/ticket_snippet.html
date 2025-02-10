@@ -7,5 +7,7 @@
 <p>{{instance.description}}</p>
 {% if instance.image %}
   <img src="{{instance.image.url}}" alt="{{instance.title}}">
+{% endif %}
+{% if not instance.has_user_reviewed %}
   <a href="{% url 'review:review_ticket' instance.id %}">Créer une critique</a>
 {% endif %}

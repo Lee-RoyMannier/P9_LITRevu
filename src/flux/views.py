@@ -12,19 +12,23 @@ class FluxView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tickets"] = Ticket.objects.filter(
+        tickets = Ticket.objects.filter(
             Q(user=self.request.user) |
             Q(user__in=self.request.user.follows.all())
         ).annotate(content_type=Value('TICKET', CharField()))
 
-        context["reviews"] = Review.objects.filter(
+        reviews = Review.objects.filter(
             Q(user=self.request.user) |
             Q(user__in=self.request.user.follows.all()) |
             Q(ticket__user=self.request.user)
         ).annotate(content_type=Value('REVIEW', CharField()))
 
         context["rating_range"] = list(range(1,6))
-        context["all_flux"] = sorted(chain(context["tickets"], context["reviews"]),
+        for ticket in tickets:
+            ticket.has_user_reviewed = reviews.filter(ticket=ticket, user=self.request.user).exists()
+        for review in reviews:
+            review.has_user_reviewed = reviews.filter(ticket=review.ticket, user=self.request.user).exists()
+        context["all_flux"] = sorted(chain(tickets, reviews),
                                      key=lambda instance: instance.time_created, reverse=True)
         return context
 
